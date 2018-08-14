@@ -1,0 +1,59 @@
+GSI006 - Estrutura de Dados 1 - prof. Autran Macedo
+
+Aquecimento
+===========
+Este laboratório apresenta exercícios para aquecimento de programação.
+
+---
+
+0) O comandante de um submarino recebeu ordem para disparar seus míssies nuclerares. O alto comando, porém, deseja cancelar a ordem de lançamento e criou um programa para imprimir na tela do sub esse cancelamento. Veja abaixo.
+
+	char i;
+
+	for (i = 200; i > 0; i--)
+   	   printf ("cancelar lançamento\n");
+
+Quantas vezes a mensagem de cancelamento foi impressa na tela do computador do submarino?
+
+1) Os tipos primitivos em C são int, char e float. Quantos bytes de memória variáveis desses tipos usam? Dica: usem a função sizeof().
+
+2) Os modificadores short, long e unsigned podem ser aplicados aos tipos primitivos do char e int; os modificadores long e double podem ser aplicados ao float. Quando aplicados, quantos bytes de memória variáveis desses tipos usam? Dica: usem a função sizeof().
+
+3) Sejam 5 números inteiros quaisquer:
+- qual é o menor número?
+- apresente tais números na ordem inversa de captura.
+
+Os 5 números são digitados pelo usuário do programa. 
+
+Exemplo: 
+- um usuário digita os números 3 12 7 4 -3
+
+- o programa apresenta -3 como o menor número
+
+- o programa apresenta os números na ordem inversa -3 4 7 12 3
+
+4) IMC (Índice de Massa Corporal) é um índice que indica, de modo geral, os riscos de saúde de uma pessoa em função de seu peso. O IMC é calculado como abaixo:
+
+     IMC = peso / (altura * altura)
+
+peso em Kg; altura em metro
+
+A tabela abaixo apresenta a classificação do IMC
+
+IMC       	Classificação	
+===		=============   
+< 18.5		Abaixo do peso	
+18.5 até 24.9	Normal		
+25.0 até 29.9	Acima do peso	
+> 29.9		Obesidade	
+
+Faça um programa que dados o peso e a altura (via stdin), nessa ordem,
+apresente o IMC e a respectiva classificação.
+
+Por exemplo: um usuário digita 
+
+	90 1.69
+
+e o programa apresenta
+
+	IMC = 31,5  Obesidade
