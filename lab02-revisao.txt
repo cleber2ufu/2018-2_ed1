@@ -1,0 +1,128 @@
+GSI006 - Estrutura de Dados 1 - prof. Autran Macedo
+
+Revisão
+=======
+O objetivo deste laboratório é:
+- aplicar o uso de ponteiros;
+- aplicar o uso de redirecionamento de arquivo;
+- realizar alocação dinâmica de memória;
+- fazer uso de abertura e fachamento de arquivo.
+
+Em todos os exercícios abaixo: realize edição e compilação no ambiente Linux; faça uso do padrão de codificação da disciplina e das boas práticas de programação.
+
+Exercício 1
+-----------
+Considere as instruções abaixo e apresente o que será impresso na instrução printf de cada subitem. Faça um programa diferente para cada subitem; cada subitem é independente entre si.
+   ...
+   #define MAX 3
+   ...
+   int j = 3
+   int n[MAX] = {5,7,9};
+   int *p = NULL;
+   int r = 0;
+   ...
+
+1.1 
+---
+   r = j + r++;
+   printf ("%d\n", r);
+   printf ("%d\n", r);   
+
+Resultado esperado: 
+3
+4
+
+1.2
+---
+   r = j + ++r;
+   printf ("%d\n", r);
+
+Resultado esperado: 4
+
+1.3 
+---
+   p = n;
+   r = j + *p;
+   printf ("%d %d\n", r, *p);
+
+Resultado esperado: 8 5
+
+1.4
+---
+   p = n;
+   r = j + ++*p;
+   printf ("%d %d\n", r, *p);
+
+Resultado esperado: 9 6
+
+1.5
+---
+   p = n;
+   r = j + *p++;
+   printf ("%d %d\n", r, *p);
+
+Resultado esperado: 10 7
+
+1.6
+---
+   p = n;
+   r = j + (*p)++;
+   printf ("%d %d\n", r, *p);
+
+Resultado esperado: 8 6
+
+Exercício 2 
+-----------
+Uma coleção com N registros de temperatura (RT) está armazenada em um arquivo txt. O valor de N está estabelecido na primeira linha do arquivo. Cada RT é composto pela temperatura e o nome  da cidade (20 caracteres sem espaço) onde ocorreu tal temperatura. Um exemplo segue abaixo:
+
+5
+15.3 Uberlândia
+-5.0 Gramado
+6.0 Chapecó
+23.2 Recife
+28.0 Natal
+
+No exemplo acima, 5 representa a a quantidade de RTs subsequentes. As demais linhas contêm os RTs, um em cada linha.
+
+Criar um programa que apresente:
+- o RT com a menor temperatura;
+- os RTs na tela do computador, na ordem inversa daquela contida no arquivo. 
+
+Considerando o exemplo de arquivo acima, a apresentação do programa deveria ser a seguinte.
+
+RT com menor temperatura
+========================
+-5.0 Gramado
+
+RTs apresentação inversa
+========================
+28.0 Natal
+23.2 Recife
+6.0 Chapecó
+-5.0 Gramado
+15.3 Uberlândia
+
+### Restrições ###
+
+1. A leitura dos RTs e a apresentação dos RTs se dão via stdin e stdout, respectivamente. Assim, o arquivo txt contendo os RTs deve ser REDIRECIONADO para o programa; o mesmo deve ocorrer com relação à apresentação do programa. Exemplo:
+
+	p.exe < rt.txt > result.txt
+
+No exemplo acima:
+- p.exe é o nome do arquivo que contém o código executável (binário);
+- rt.txt é o nome do arquivo que contém os RTs;
+- result.txt é o nome do arquivo que conterá a apresentação do programa;
+- o simbolo '<' representa o redirecionamento de arquivo rt.txt para o programa p.exe, isto é, o arquivo rt.txt substitui o teclado (stdin);
+- o simbolo '>' representa o redirecionamento daquilo que o programa imprime para o arquivo resut.txt, isto é o arquivo result.txt substitui a tela (stdout).
+
+2. O array que guardará os RTs deverá ser alocado dinamicamente. O tamanho do array está contido na primeira linha do arquivo rt.txt. Dica: faça uso da função malloc().
+
+3. Antes de encerrar o programa, não se esqueça de liberar a área de memória correspondente ao array alocado. Dica: faça uso da função free();
+
+Exercício 3
+-----------
+Idem Exercício 2, contudo a leitura e escrita NÃO se dará via arquivos padrões (stdin e stdout). O lançamento do programa será, por exemplo, como abaixo.
+
+	p.exe
+
+No exemplo acima: p.exe é o nome do arquivo que contém o código executável (binário). Esse programa, em tempo de execução, deverá ABRIR os arquivos rt.txt e result.txt. Dica: faça uso das funções fopen() e fclose().
