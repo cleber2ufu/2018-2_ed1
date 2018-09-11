@@ -1,0 +1,127 @@
+﻿Universidade Federal de Uberlândia
+Faculdade de Computação - Prof. Autran Macedo
+
+==========
+= Função =
+==========
+Função em C são módulos de código que auxiliam na modularização de um programa.
+
+Os exercícios abaixo exploram o uso de função, especialmente, o uso dos parâmetros argc e argv (da função main).
+
+Em todos os exercícios a seguir, você deve:
+- aplicar boas práticas de programação (incluindo o uso do padrão de codificação);
+
+- modularizar o programa, criando funções além da função main ();
+
+- criar a função checkArgs() que deve verificar a consistência dos argumentos passados para o programa. Essa função deve retornar zero, se os argumentos estão consistentes; retornar um valor > 0, em caso de erro (cada valor deve estar associado a um erro específico).
+
+Exercício 1
+-----------
+Crie um programa que apresenta o produtos de dois números inteiros. Esses 
+números são passados para o programa em tempo de lançamento (usar argc e argv). Exemplo:
+
+prod.exe 5 6
+
+No exemplo acima, prod.exe é o nome do arquivo que contém o programa executável; 5 e 6 são argumentos para o programa, que deve apresentar 30, como resultado, ao término da execução.
+
+--- Atenção ---
+1. A função checkArgs() deve verificar especificamente se os argumentos consistem de dígitos. Nota: use a função isdigit().
+
+Exercício 2
+-----------
+Escreva um programa que:
+- apresenta o menor número entre aqueles contidos em um array;
+- apresenta todos os números do array na ordem inversa (da posição maior para a menor.
+
+Os número originalmente estão armazenados em um arquivo txt; o tamanho do array é determinado pelo número contido nesse arquivo. 
+
+O nome do arquivo deve ser passado para o programa em tempo de lançamento do mesmo. Por exemplo:
+
+	num.exe num.txt
+
+No exemplo acima,
+- num.exe é o nome do arquivo que contém o código executável do programa;
+- num.txt é o nome do arquivo que contém os números a serem lidos pelo programa. 
+
+Um exemplo de conteúdo de arquivo segue abaixo.
+
+	5 3 12 7 4 -3
+
+No exemplo acima, o primeiro número (5) indica a quantidade de números que devem ser carregados no array. Assim, o primeiro número indica o tamanho do array.
+
+--- Atenção ---
+1. O usuário NÃO é bem comportado; ele pode se esquecer de passar o nome do arquivo ou passar o nome de arquivo que não está na mesma pasta do programa. Contudo, os números contidos no arquivo estão consistentes; não há necessidade de verificar sua consistência.
+
+2. O seu programa deve implementar as funções que são chamadas pela função main(), abaixo.
+
+int
+main (int argc, char *argv[])
+{
+   ...
+   int r = 0;
+   int n[MAX];
+   ...
+   if (r = checkArgs (...) )
+   {
+      < mensagem de erro apropriada >
+      return r;
+   }
+   
+   i = carrega (argv[1], n); 
+   printf ("menor número = %d\n", menor (n, i) );
+   apresentaInv (n, i);
+
+   return 0;
+}
+
+Exercício 3
+-----------
+IMC (Índice de Massa Corporal) é um índice que indica, de modo geral, os riscos de saúde de uma pessoa em função de seu peso. O IMC é calculado como abaixo:
+
+     IMC = peso / (altura * altura)
+
+peso em Kg; altura em m
+
+A tabela abaixo apresenta a classificação do IMC
+
+IMC       	Classificação	
+===		=============   
+< 18.5		Abaixo do peso	
+18.5 .. 24.9	Normal		
+25.0 .. 29.9	Acima do peso	
+> 29.9		Obesidade	
+
+Faça um programa que dados o peso e a altura, apresente o IMC e a respectiva classificação. Peso e altura são passados, em qualquer ordem, em tempo de lançamento do programa.
+
+Considerando que peso e altura podem ser passados em qualquer ordem, então é necessário um identificador para cada um desses argumentos. Sugestão: "-p" para peso e "-a" para altura. Exemplo: 
+
+	imc.exe -p 69.3 -a 1.69
+ou
+	imc.exe -a 1.69 -p 69.3
+
+Duas maneiras corretas de se passar argumentos para o programa imc.exe. Observe que com os identificadores "-a" e "-p", o usuário fica livre para escolher a ordem de passagem dos argumentos. De um modo ou de outro, o programa apresenta o resultado abaixo.
+
+IMC = 24.26
+Normal
+
+--- Atenção ---
+1. A função checkArgs() deve verificar especificamente se os argumentos consistem de dígitos. É permitido ao usuário do programa usar vírgula (,) no lugar de ponto (.) para exepressar a casa decimal. Assim, no momentos de lançar o programa, o usuário ou escrever
+
+	imc.exe -p 69,3 -a 1,69
+ou
+	imc.exe -a 1,69 -p 69.3
+ou
+	qualquer combinação acima
+
+Nos casos acima, a função checkArgs() deve substituir vírgula (,) no lugar de ponto (.)
+
+Nota:
+use as funções isdigit() e atof().
+
+2. O cálculo do IMC deve ser realizado por uma função específica; observe a chamada a abaixo.
+
+	...
+	float x = imc (p, a);
+	...
+
+

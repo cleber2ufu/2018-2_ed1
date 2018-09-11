@@ -1,0 +1,245 @@
+﻿Universidade Federal de Uberlândia
+Faculdade de Computação - Prof. Autran Macedo
+
+==========
+= Função =
+==========
+Função (no contexto da linguagem C) é um conjunto de instruções que possui um determinado objetivo; é muito útil para encapsular a computação de uma parte de um aplicativo. Veja exemplo abaixo.
+
+...
+
+int main ()
+{
+   int i = 2;
+   float b = 2.0;
+   printf ("%f", xyz (a, b) );
+   return 0;
+}
+
+// xyz
+// ---
+// Retorna o resultado da soma de b por si mesmo i vezes
+ 
+float
+xyz (int i, float b)
+
+{
+   float r = 0.0;
+   while (i > 0)
+   {
+      r += b;
+      i--;
+   }
+   return r;
+}
+
+Observe:
+* a função main fica concisa; a função main deve ser o roteiro do aplicativo;
+
+* o uso de função permite a modularização de um aplicativo;
+
+* um aplicativo fica mais fácil de ser modificado (manutenção);
+
+* a ordem e a tipagem dos argumentos passados à xyz coincide com os parâmetros declarados nessa função;
+
+* os parâmetros de uma função são variáveis "locais".
+
+Boa prática de programação
+--------------------------
+* O protótipo de cada função do programa deve estar declarado no preâmbulo do programa. Os protótipos podem estar em um arquivo .h
+
+* A função main deve ser a primeira função; as demais funções seguem a função
+ main em ordem alfabética.
+
+* Toda função deve ser precedida por um comentário (vide padrão de codif.)
+
+* Do ponto de vista da Engenharia de Software:
+  - variáveis locais devem ter preferência sobre variáveis externas;
+  - o uso de variáves externas (globais - extern) deve ser mínimo;
+  - a comunicação entre funções deve se dar, preferencialmente, por passagem de argumentos.
+
+
+Passagem de argumentos para funções
+
+###################################
+Dois tipos: valor; endereço.
+
+ Diferença: na passagem de argumentos por endereço, o resultado da computação da 
+função é refletido "fora" da função. Exemplo:
+
+#include <stdio.h>
+
+...
+
+int
+main ()
+{
+   float dvdnd = 0.0;
+   float dvsor = 0.0;
+   float r = 0.0;
+   unsigned char err = 0;
+
+   scanf ("%f %f", &dvdnd, &dvsor);
+
+   r = div (dvdnd, dvsor, &err);
+
+   if (err)
+      fprintf (stderr"não é possível divisão por zero\n");
+   else
+      printf ("%f \n", r);
+
+   return 0;
+}
+
+// div
+// ---
+// Retorna o resultado da divisão de a por b.
+// Esse resultado deve ser considerado APENAS se *e == 0.
+// Se *e > 0, então b igual a zero.
+
+float
+div (float a, float b, unsigned char *e)
+{
+   float r = 0.0;
+   *e = 0; // sem ocorrência de erro
+
+   if (b == 0)
+      *e = 1;
+   else
+      r = a / b;
+
+   return r;
+}
+
+
+
+Os argumentos dvdnd e dvsor são passados como valor; o argumento err é passado como endereço. O símbolo & indica passagem de endereço, neste caso o endereço da variável err. Qq alteração de valor na variável *e, da função div, afeta o valor da variável err, da função main.
+
+Importante: quando o nome de um vetor é passado para uma função, essa passagem é como endereço. Então, qq alteração no conteúdo do vetor será percebido fora da função.
+
+Exercício 1
+-----------
+Faça um programa que apresenta n números de um array em ordem descendente, considerando as posições do vetor. O programa:
+1 carrega o array com números, a partir de um arquivo, cujo nome é passado em tempo de lançamento;
+2 e, em seguida, apresenta seu conteúdo. 
+
+O tamanho do array é definido pelo programador; a quantidade de números no arquivo é indeterminado, no momento do lançamento do programa. Os números no arquivo estão separados por um caractere branco ou \n.
+
+Uma solução para o exercício 1
+------------------------------
+
+// não contempla boas práticas de programação
+#include <stdio.h>
+#define MAX 200
+...
+
+int
+main ()
+{
+   int n[MAX] = {0};
+   int i = -1;
+
+   i = carrega (argv[1], n); 
+   apresentaInv (n, i);
+
+   return 0;
+}
+
+// apresentaInv
+// ------------
+// apresenta o conteúdo de i posições de n, em ordem inversa.
+
+void
+apresentaInv (int *n, int i)
+{
+   printf ("números na ordem inversa\n");
+   while (--i >= 0)
+      printf ("%d ", n[i]);
+   printf ("\n");
+}
+
+// carrega
+// -------
+// Lê os dados contido no arquivo cujo nome está em s e os carrega
+// no array n, que possui MAX posições.
+//
+// Retorna a quantidade de números guardados em n.
+
+int 
+carrega (char *s, int *n)
+{
+   FILE *f = fopen (s, "r");
+   int i = 0;
+
+   for (i = 0; i < MAX; i++)
+      if ( fscanf (f, "%d", &n[i]) == EOF )
+         break;
+
+   return i;
+}
+
+Exercício 2
+-----------
+Apresente uma implementação da função mystrcpy. Considere a função main () abaixo
+
+...
+
+int
+main ()
+{
+   char array1 [MAX] = "olá!";
+   char array2 [MAX];
+
+   mystrcpy (array2, array1); // equivalente a array2 = array1
+
+   printf ("%s\n", array2);
+
+   return 0;
+}
+
+Algumas soluções para o Exercício 2
+-----------------------------------
+
+void
+mystrcpy (char sd[], char so[])
+{
+   int i = 0;
+
+   while ( (sd[i] = so[i]) != '\0' )
+      i++;
+}
+
+void
+mystrcpy (char *sd, char *so)
+{
+   int i = 0;
+
+   while ( (sd[i] = so[i]) != '\0' )
+      i++;
+}
+
+void
+mystrcpy (char *sd, char *so)
+{
+   while ( (*sd = *so) != '\0' )
+   {
+      sd++;
+      so++;
+   }
+}
+
+void
+mystrcpy (char *sd, char *so)
+{
+   while ( (*sd++ = *so++) != '\0' )
+      ;
+}
+
+
+void
+mystrcpy (char *sd, char *so)
+{
+   while ( (*sd++ = *so++) )
+      ;
+}
+

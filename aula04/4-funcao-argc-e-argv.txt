@@ -1,0 +1,196 @@
+Universidade Federal de Uberlândia
+Faculdade de Computação - Prof. Autran Macedo
+
+===============
+= ARGC & ARGV =
+===============
+A função main também tem parâmetros, assim é possível passar argumentos para um programa em tempo de lançamento, isto é, antes do programa iniciar sua execução. 
+
+Você já passou argumentos para programas antes deles iniciarem, por exemplo:
+gcc teste.c -o teste.exe
+
+Como o gcc "sabe" qual é o nome do arquivo a ser compilado e qual é o nome do arquivo binário a ser criado?
+
+Resposta: o nome dos arquivos foram passados para a função main. A função main possui dois parâmetros: argc e argv. O protótipo da função main segue abaixo.
+
+int main (int argc, char *argv[]);
+ou
+int man (int argc, char ** argv);
+
+argc guarda a quantidade de argumentos passados para o programa portanto, argc é do tipo int. Quando um programa é lançado sem argumentos, argc é igual a 1.
+
+argv é um array; cada posição desse array é um ponteiro (char *) para um string. Assim cada string guarda um dos argumentos passados para o programa (função main). 
+
+A posição argv[0] sempre guarda o nome do programa que está sendo executado. Os argumentos passados para o programa estarão nas demais posições de argv.
+
+Lembrete: um argumento é reconhecido após ser detectado um caractere branco.  Observe o lançamento do gcc abaixo
+
+gcc teste.c -o teste.exe
+
+Qual é valor de ARGC é Resposta: 4
+
+Qual é o conteúdo de ARGV? 
+Resposta:
+
+ARGV[0] = "gcc"
+
+ARGV[1] = "teste.c"
+
+ARGV[2] = "-o"
+
+ARGV[3] = "teste.exe"
+
+Não é necessário alocar espaço para argv, o SO se encarrega dessa parte. 
+Mas o programador deve declarar argc e argv no cabeçalho da função main.
+
+Exercício 1: argc e argv
+-------------------------
+Crie um programa que apresenta o produtos de dois números inteiros. Esses 
+números são passados para o programa em tempo de lançamento. Exemplo:
+
+prod.exe 411 5550
+
+Cuidado: o usuário pode erroneamente digitar caracteres não numéricos.
+
+Uma solução para o Exercício 1 (sem crítica aos argumentos) 
+-----------------------------------------------------------
+...
+
+int
+main (int argc, char *argv[])
+{
+   printf ("%d\n", atoi (argv[1]) * atoi (argv[2]);
+
+   return 0;
+}
+
+Uma solução para o Exercício 1 (com crítica aos argumentos) 
+-----------------------------------------------------------
+...
+
+int
+main (int argc, char *argv[])
+{
+   int r = 0;
+
+   if ( (r = checkArgs (argc, argv)) > 0 )
+   {
+      printErrorMsg (r, argv);
+      return r;
+   }
+
+   printf ("%d\n", atoi (argv[1]) * atoi (argv[2]);
+
+   return 0;
+}
+
+// checkArgs
+// ---------
+// Retorna 0 se os argumentos estão corretos; 
+// ou retorna > 0 se há erro nos argumentos.
+
+int
+checkArgs (int argc, char *argv[])
+{
+   if (argc < 3)
+      return 5;
+
+   if ( !allDigit (argv[1]) )
+      return 7;
+
+   if ( !allDigit (argv[2]) )
+      return 9;
+
+   return 0;
+}
+
+// printErrorMsg
+// -------------
+// Print a message according to the error code in r
+
+void
+printErrorMsg (int r, char *argv[])
+{
+   switch (r)
+   {
+      case 5: 
+         fprintf (stderr, "%s: missing arguments\n", argv[0]);
+         break;
+
+      case 7: 
+         fprintf (stderr, "%s: argument %s not num\n", argv[0], argv[1]);
+         break;
+
+      case 9: 
+         fprintf (stderr, "%s: argument %s not num\n", argv[0], argv[2]);
+         break;
+
+      default:
+         fprintf (stderr, "not defined result\n");
+         break;
+   }
+}
+
+// allDigit
+// --------
+// Retorna 1 se todos os caracteres em s são numéricos;
+// retorna 0, caso contrário.
+
+int
+allDigit (char *s) 
+{
+   int i = 0;
+   for (i = 0; s[i] != '\0'; i++)
+      if ( !isdigit (s[i]) )
+         return 0;
+
+   return 1;
+}
+
+NOTA: a solução acima não atende propositalmente o padrão de codificação da disciplina
+
+Exercício 2: argc e argv
+------------------------
+Crie um programa que apresenta a área das seguintes figuras geométricas: quadrado, retângulo, trângulo e círculo. O tipo da figura geométrica e os dados necessários para o cáculo da área são passados em tempo de lançamento do programa.
+
+Considere area.exe é o nome do arquivo que contém o código executável do programa mencionado acima. Então, o lançamento correto desse programa, respectivamente, para cada uma das figuras geométricas citadas, segue abaixo.
+
+quadrado, retângulo, trângulo e círculo
+> area.exe quad 8
+
+> area.exe retang -M 8.3 -m 5.2
+
+> area.exe triang -a 9 -b 4.3
+
+> area.exe circ 5.0
+
+Sempre:
+- o primeiro argumento para o programa é o nome da figura geométrica;
+
+- os demais argumentos dependem da figura 
+  * se a figura for quadrado ou cículo um número deve ser apresentado, representando, respectivamente, o lado do quadrado ou raio do círculo;
+
+  * se a figura for retângulo ou triângulo, dois números devem ser apresentados, representando, respectivamente
+	* os lados maior e menor do retângulo,  
+	* ou a altura e a base do triângulo.
+
+Os dados do retângulo e do triângulo podem ser apresentados em qualquer ordem e por isso são identificados por tags:
+* "-M" e "-m" (o maior lado e o menor lado do retângulo, respectivamente);
+* "-a" e "-b" (a altura e a base do triângulo, respectivamente).
+
+Um roteiro para a função main() segue abaixo.
+
+int
+main (...)
+{
+   if ( r = checkArgs (...) )
+      return r;
+
+   if ( "quadrado" )
+      ...
+   else if ( "retângulo" )
+      ...
+   ...
+
+   return 0;
+}
