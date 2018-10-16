@@ -1,0 +1,108 @@
+Universidade Federal de Uberlândia
+
+Faculdade de Computação - Prof. Autran Macedo
+
+================================
+= TAD - Tipo Abstrato de Dados =
+================================
+Um TAD é uma especificação sobre um tipo de dados específico e as operações que podem ser realizadas sobre esse tipo.
+
+Não existe, primitivamente, o tipo SOI (set of integers). Havendo necessidade de criar esse tipo, é necessário planejar:
+- a estrutura de dados que irá armazenar os números;
+- as operações que podem ser aplicadas a um SOI (criação, união, intersecção etc).
+
+Portanto, o objetivo deste lab é criar um TAD para conjunto de números inteiros. 
+
+Exercício 1
+-----------
+Considere que existe um TAD que implementa SOI; analise os protótipos das funções disponíveis ao SOI, que estão no arquivo soi.h, na pasta TAD.
+
+Faça um programa (app.c) que realize as seguintes operações sobre SOI:
+- crie um SOI;
+- carregue um SOI com números contidos em um arquivo;
+- apresente o conteúdo de um SOI;
+- e destrua um SOI.
+
+Um trecho do app.c segue abaixo
+
+...
+#include "soi.h"
+...
+int
+main (int argc, char *argv[])
+{
+   SOI a   = NULL;
+   FILE *f = NULL;
+
+   a = setCreate();
+
+   f = fopen (argv[1], "r");
+   loadSet (a, f);
+   fclose (f);
+
+   setShow (a);
+
+   setErase (a);
+
+   return 0;
+}
+
+A função loadSet() é uma função da aplicação (app.c). Essa função é do tipo void; lê os números contidos em f e os coloca no SOI a. O uso da função setIns(), que cujo protótipo está no arquivo soi.h, será necessário.
+
+Para gerar o código executável correspondente ao conteúdo do arquivo app.c, execute as instruções abaixo
+
+(1)	gcc app.c -c
+(2)	gcc app.o soi.o -o app.exe
+
+A instrução 2 deve ser executada somente se não tiver ocorrido erro de compilação na instrução 1.
+
+O arquivo soi.o, mencionado na instrução 2, está na pasta TAD. Nessa mesma pasta, o  arquivo set-a.txt contém números e pode ser utilizados para carregar o SOI.
+
+Teste sua aplicação.
+
+Você acabou de utilizar um TAD; para isto, você conheceu APENAS as operações disponíveis no arquivo soi.h. 
+
+Observe:
+* tendo o arquivo .o e .h de um TAD, você pode utilizá-lo em diferentes aplicações;
+* se o TAD for bem planejado em termos de Engenharia de Software, é possível acessar suas estruturas de dados SOMENTE por meio de chamadas às funções, cujos protótipos estão no arquivo .h.
+
+Exercício 2
+-----------
+Neste exercício, você IMPLEMENTARÁ as funções do SOI que você utilizou no exercício anterior: setCreate(), setShow, setErase. Portanto, você criará o arquivo soi-x.o a ser utilizado pela aplicação (app.c) do exercício anterior.
+
+Você deve criar um arquivo soi.c e escrever a implementação das funções mencionadas acima. Considere que um SOI, que para o usuário da aplicação é um void *, é na realidade a estrutura abaixo.
+
+struct soi  // set of integers
+{
+   int * s; // set of integers
+   int n;   // number of elements in the s
+};
+typedef struct soi SoI;
+
+Para compilar o arquivo soi.c, execute a instrução abaixo
+
+	gcc soi.c -c -o soi-x.o
+
+Se não ocorrer erro de compliação, você deve ligar o arquivo soi-x.o ao arquivo app.o que foi criado no arquivo anterior.
+
+	gcc app.o soi-x.o -o app-x.exe
+
+Teste agora a aplicação. O resultado tem de coincidir com aquele do Exercício 1.
+
+Exercício 3
+-----------
+Estenda o arquivo soi.c, criado no Exercício 2, adicionando a implementação da função setUnion().
+
+Estenda o arquivo app.c, criado no Exercício 1, adicionado as instruções a seguir.
+...
+SOI u;
+...
+u = setUnion (a, a);
+setShow (u);
+...
+
+O conteúdo de u tem de ser igual ao de a.
+
+
+
+
